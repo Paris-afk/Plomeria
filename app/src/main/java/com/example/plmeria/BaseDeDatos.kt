@@ -34,6 +34,18 @@ class BaseDeDatos(val context: Context): SQLiteOpenHelper(context, DB_NAME,null,
         //return res
     }
 
+    fun updateMedidas(medidasId: Int, medidasCant: Int){
+        val db = writableDatabase
+        val actualizarMedidas = "UPDATE medidas\n" +
+                "SET ${CANTIDAD} = ${medidasCant}\n" +
+                "WHERE ${COL_ID} = ${medidasId};"
+        val cv = ContentValues()
+        cv.put(CANTIDAD, medidasCant)
+        //db.update("medidas", cv, "id_medida = ${medidasCant}", null )
+        db.execSQL(actualizarMedidas);
+        //return res
+    }
+
     fun obtenerMedidas() : MutableList<Medidas> {
         var resultado: MutableList<Medidas> = ArrayList()
         val db = readableDatabase

@@ -3,7 +3,6 @@ package com.example.plmeria
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_almacen.*
-import kotlinx.android.synthetic.main.rv_child_dashboard.view.*
 
 
 class Almacen : AppCompatActivity() {
@@ -66,6 +64,10 @@ class Almacen : AppCompatActivity() {
         class ViewHolder(v:View): RecyclerView.ViewHolder(v){
             val cantidad : TextView = v.findViewById(R.id.tv_todo_name)
             val deleteButton: Button = v.findViewById(R.id.delete_button)
+            val editButton: Button = v.findViewById(R.id.edit_button)
+            val medidas = v.findViewById<EditText>(R.id.ev_todo)
+            //val medidasCantidad = v.findViewById<EditText>(R.id.ev_todo3)
+            val thisView = v
         }
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -77,19 +79,49 @@ class Almacen : AppCompatActivity() {
             holder.deleteButton.text = "Borrar " + list[p1].id_medida.toString()
             holder.deleteButton.setOnClickListener(View.OnClickListener { view ->
                 delete(p1)
-
                 list = baseDeDatos.obtenerMedidas()
                 this.notifyDataSetChanged()
+            })
+            holder.editButton.text = "Edit"
+            holder.editButton.setOnClickListener(View.OnClickListener { view ->
+                //update(p1, holder.thisView)
+                var dialog =  AlertDialog.Builder(context)
+                val view2 = LayoutInflater.from(context).inflate(R.layout.dialog_dashboard_edit,null);
+                val medidasCantidad = view2.findViewById<EditText>(R.id.ev_todo3)
+                dialog.setView(view2)
 
+                dialog.setPositiveButton("Edit") { _: DialogInterface, _: Int ->
+                    if (medidasCantidad.text.isNotEmpty()) {
+                        update(p1, medidasCantidad.text.toString().toInt())
+                        this.notifyDataSetChanged()
+                    }
+                    this.notifyDataSetChanged()
+                }
+                dialog.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->
+
+                }
+
+                dialog.show()
+                dialog.setOnDismissListener {
+                    dialog -> this.notifyDataSetChanged()
+
+                }
+                this.notifyDataSetChanged()
             })
         }
 
-        fun delete(p1: Int): DashboardAdapter {
+        fun update(p1: Int, cantidad: Int){
+            baseDeDatos = BaseDeDatos(context)
+            baseDeDatos.updateMedidas(list[p1].id_medida, cantidad)
+            list = baseDeDatos.obtenerMedidas()
+            this.notifyDataSetChanged()
+            Toast.makeText(context, "Datos editados de: " + list[p1].id_medida.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        fun delete(p1: Int){
             baseDeDatos = BaseDeDatos(context)
             baseDeDatos.deleteMedidas(list[p1].id_medida)
             Toast.makeText(context, "Borrado de la base de datos.", Toast.LENGTH_SHORT).show()
-            list = baseDeDatos.obtenerMedidas()
-            return Almacen.DashboardAdapter(context, list)
         }
 
         override fun getItemCount(): Int {
