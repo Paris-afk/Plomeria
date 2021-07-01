@@ -94,19 +94,14 @@ class Almacen : AppCompatActivity() {
                     if (medidasCantidad.text.isNotEmpty()) {
                         update(p1, medidasCantidad.text.toString().toInt())
                         this.notifyDataSetChanged()
+
                     }
-                    this.notifyDataSetChanged()
                 }
                 dialog.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->
 
                 }
 
                 dialog.show()
-                dialog.setOnDismissListener {
-                    dialog -> this.notifyDataSetChanged()
-
-                }
-                this.notifyDataSetChanged()
             })
         }
 

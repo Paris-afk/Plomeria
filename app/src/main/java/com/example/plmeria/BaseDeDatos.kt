@@ -30,8 +30,22 @@ class BaseDeDatos(val context: Context): SQLiteOpenHelper(context, DB_NAME,null,
         val db = writableDatabase
         val borrarMedidas = "DELETE FROM ${TABLE_MEDIDAS} WHERE ${COL_ID} = ${medidasId}"
         return db.delete("medidas", "id_medida =" + medidasId.toString(), null) > 0
-        //db.execSQL(borrarMedidas);
-        //return res
+    }
+
+    fun estaDisponible(medidasId: Int): MutableList<Medidas> {
+        var resultado: MutableList<Medidas> = ArrayList()
+        val db = readableDatabase
+        val queryResult = db.rawQuery("SELECT * FROM ${TABLE_MEDIDAS} WHERE ${COL_ID} = ${medidasId}",null)
+        if (queryResult.moveToFirst()) {
+            do {
+                val medidas = Medidas()
+                medidas.id_medida = queryResult.getInt(queryResult.getColumnIndex(COL_ID))
+                medidas.cantidad = queryResult.getInt(queryResult.getColumnIndex(CANTIDAD))
+                resultado.add(medidas)
+            } while (queryResult.moveToNext())
+        }
+        queryResult.close()
+        return resultado
     }
 
     fun updateMedidas(medidasId: Int, medidasCant: Int){
@@ -41,9 +55,7 @@ class BaseDeDatos(val context: Context): SQLiteOpenHelper(context, DB_NAME,null,
                 "WHERE ${COL_ID} = ${medidasId};"
         val cv = ContentValues()
         cv.put(CANTIDAD, medidasCant)
-        //db.update("medidas", cv, "id_medida = ${medidasCant}", null )
         db.execSQL(actualizarMedidas);
-        //return res
     }
 
     fun obtenerMedidas() : MutableList<Medidas> {
