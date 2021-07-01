@@ -26,12 +26,13 @@ class Almacen : AppCompatActivity() {
             var dialog =  AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.dialog_dashboard,null);
             val medidas = view.findViewById<EditText>(R.id.ev_todo)
+            val medidasCantidad = view.findViewById<EditText>(R.id.ev_todo2)
             dialog.setView(view)
             dialog.setPositiveButton("Add") { _: DialogInterface, _: Int ->
                 if (medidas.text.isNotEmpty()) {
                     val medida = Medidas()
                     medida.id_medida = medidas.text.toString().toInt()
-                    medida.cantidad = 5
+                    medida.cantidad = medidasCantidad.text.toString().toInt()
                     baseDeDatos.addMedidas(medida)
                     refreshList()
                 }
@@ -58,6 +59,7 @@ class Almacen : AppCompatActivity() {
 
     class ViewHolder(v:View): RecyclerView.ViewHolder(v){
         val cantidad : TextView = v.findViewById(R.id.tv_todo_name)
+        val cantidadDePulg : TextView = v.findViewById(R.id.tv_todo_name)
     }
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -65,8 +67,7 @@ class Almacen : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-           holder.cantidad.text = list[p1].id_medida.toString()
-
+           holder.cantidad.text = "id: " + list[p1].id_medida.toString() + " | Cantidad: " + list[p1].cantidad.toString()
         }
 
         override fun getItemCount(): Int {
