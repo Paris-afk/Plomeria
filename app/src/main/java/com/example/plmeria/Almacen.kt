@@ -3,17 +3,22 @@ package com.example.plmeria
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_almacen.*
+import kotlinx.android.synthetic.main.rv_child_dashboard.view.*
+
+
 class Almacen : AppCompatActivity() {
 
     lateinit var baseDeDatos :BaseDeDatos
@@ -51,23 +56,40 @@ class Almacen : AppCompatActivity() {
         super.onResume()
     }
 
-    private fun refreshList(){
+    fun refreshList(){
         rv_dashboard.adapter = DashboardAdapter(this,baseDeDatos.obtenerMedidas())
     }
 
-    class DashboardAdapter(val context:Context, val list:MutableList<Medidas>): RecyclerView.Adapter<DashboardAdapter.ViewHolder>(){
+    class DashboardAdapter(val context:Context, var list:MutableList<Medidas>): RecyclerView.Adapter<DashboardAdapter.ViewHolder>(){
+        lateinit var baseDeDatos :BaseDeDatos
 
-    class ViewHolder(v:View): RecyclerView.ViewHolder(v){
-        val cantidad : TextView = v.findViewById(R.id.tv_todo_name)
-        val cantidadDePulg : TextView = v.findViewById(R.id.tv_todo_name)
-    }
+        class ViewHolder(v:View): RecyclerView.ViewHolder(v){
+            val cantidad : TextView = v.findViewById(R.id.tv_todo_name)
+            val deleteButton: Button = v.findViewById(R.id.delete_button)
+        }
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.rv_child_dashboard,p0,false))
+            return ViewHolder(LayoutInflater.from(context).inflate(R.layout.rv_child_dashboard,p0,false))
         }
 
         override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-           holder.cantidad.text = "id: " + list[p1].id_medida.toString() + " | Cantidad: " + list[p1].cantidad.toString()
+           holder.cantidad.text = "Id: " + list[p1].id_medida.toString() + " | Cantidad: " + list[p1].cantidad.toString()
+            holder.deleteButton.text = "Borrar " + list[p1].id_medida.toString()
+            holder.deleteButton.setOnClickListener(View.OnClickListener { view ->
+                delete(p1)
+
+                list = baseDeDatos.obtenerMedidas()
+                this.notifyDataSetChanged()
+
+            })
+        }
+
+        fun delete(p1: Int): DashboardAdapter {
+            baseDeDatos = BaseDeDatos(context)
+            baseDeDatos.deleteMedidas(list[p1].id_medida)
+            Toast.makeText(context, "Borrado de la base de datos.", Toast.LENGTH_SHORT).show()
+            list = baseDeDatos.obtenerMedidas()
+            return Almacen.DashboardAdapter(context, list)
         }
 
         override fun getItemCount(): Int {

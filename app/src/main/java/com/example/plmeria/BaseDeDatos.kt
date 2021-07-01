@@ -26,10 +26,18 @@ class BaseDeDatos(val context: Context): SQLiteOpenHelper(context, DB_NAME,null,
         return result != (-1).toLong()
     }
 
+    fun deleteMedidas(medidasId: Int): Boolean {
+        val db = writableDatabase
+        val borrarMedidas = "DELETE FROM ${TABLE_MEDIDAS} WHERE ${COL_ID} = ${medidasId}"
+        return db.delete("medidas", "id_medida =" + medidasId.toString(), null) > 0
+        //db.execSQL(borrarMedidas);
+        //return res
+    }
+
     fun obtenerMedidas() : MutableList<Medidas> {
-    var resultado: MutableList<Medidas> = ArrayList()
-    val db = readableDatabase
-    val queryResult = db.rawQuery("SELECT  * from ${TABLE_MEDIDAS}",null)
+        var resultado: MutableList<Medidas> = ArrayList()
+        val db = readableDatabase
+        val queryResult = db.rawQuery("SELECT  * from ${TABLE_MEDIDAS}",null)
         if (queryResult.moveToFirst()) {
             do {
                 val medidas = Medidas()
