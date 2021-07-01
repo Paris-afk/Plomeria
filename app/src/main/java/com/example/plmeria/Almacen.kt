@@ -65,9 +65,6 @@ class Almacen : AppCompatActivity() {
             val cantidad : TextView = v.findViewById(R.id.tv_todo_name)
             val deleteButton: Button = v.findViewById(R.id.delete_button)
             val editButton: Button = v.findViewById(R.id.edit_button)
-            val medidas = v.findViewById<EditText>(R.id.ev_todo)
-            //val medidasCantidad = v.findViewById<EditText>(R.id.ev_todo3)
-            val thisView = v
         }
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -76,7 +73,7 @@ class Almacen : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
            holder.cantidad.text = "Id: " + list[p1].id_medida.toString() + " | Cantidad: " + list[p1].cantidad.toString()
-            holder.deleteButton.text = "Borrar " + list[p1].id_medida.toString()
+            holder.deleteButton.text = "Borrar"
             holder.deleteButton.setOnClickListener(View.OnClickListener { view ->
                 delete(p1)
                 list = baseDeDatos.obtenerMedidas()
@@ -110,7 +107,7 @@ class Almacen : AppCompatActivity() {
             baseDeDatos.updateMedidas(list[p1].id_medida, cantidad)
             list = baseDeDatos.obtenerMedidas()
             this.notifyDataSetChanged()
-            Toast.makeText(context, "Datos editados de: " + list[p1].id_medida.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Datos editados de ID: " + list[p1].id_medida.toString(), Toast.LENGTH_SHORT).show()
         }
 
         fun delete(p1: Int){

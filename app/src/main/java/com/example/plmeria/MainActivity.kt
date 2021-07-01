@@ -64,13 +64,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"from DB: ",Toast.LENGTH_SHORT)
                     return;
                 } else {
-                    resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS \n Hay sificientes tramos"
+                    resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS \n Hay suficientes tramos"
                     Toast.makeText(applicationContext,"No hay suficientes tramos",Toast.LENGTH_SHORT)
                     return
                 }
             } else {
                 Log.d("DB: ", "No hay en base de datos")
-                resultadoFinal.text = "No hey de estos tramos \n en base de datos"
+                resultadoFinal.text = "No hay de estos tramos \n en base de datos"
                 return
             }
 
