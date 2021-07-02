@@ -72,7 +72,7 @@ class Almacen : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-           holder.cantidad.text = "Id: " + list[p1].id_medida.toString() + " | Cantidad: " + list[p1].cantidad.toString()
+           holder.cantidad.text = "Pulgada: " + list[p1].id_medida.toString() + " \nCantidad: " + list[p1].cantidad.toString()
             holder.deleteButton.text = "Borrar"
             holder.deleteButton.setOnClickListener(View.OnClickListener { view ->
                 delete(p1)
@@ -81,7 +81,6 @@ class Almacen : AppCompatActivity() {
             })
             holder.editButton.text = "Edit"
             holder.editButton.setOnClickListener(View.OnClickListener { view ->
-                //update(p1, holder.thisView)
                 var dialog =  AlertDialog.Builder(context)
                 val view2 = LayoutInflater.from(context).inflate(R.layout.dialog_dashboard_edit,null);
                 val medidasCantidad = view2.findViewById<EditText>(R.id.ev_todo3)

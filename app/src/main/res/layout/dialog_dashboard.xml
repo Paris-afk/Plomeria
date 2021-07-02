@@ -5,16 +5,18 @@
     android:layout_height="match_parent">
 
     <EditText
-    android:id="@+id/ev_todo"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+        android:id="@+id/ev_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pulgada" />
 
     <EditText
         android:id="@+id/ev_todo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="52dp" />
+        android:layout_marginTop="52dp"
+        android:hint="Cantidad" />
 
 
 </RelativeLayout>

@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Almacen::class.java)
             startActivity(intent);
         }
+        //to change title of activity
+        val actionBar = supportActionBar
+        actionBar!!.title = "Plomería Jalapeño"
     }
 
 
