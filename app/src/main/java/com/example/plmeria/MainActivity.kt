@@ -3,6 +3,7 @@ package com.example.plmeria
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -20,6 +21,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Almacen::class.java)
             startActivity(intent);
         }
+        //to change title of activity
+        val actionBar = supportActionBar
+        actionBar!!.title = "Plomería Jalapeño"
     }
 
 
@@ -27,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     //valor de medida
     var valor = 0;
+    var pulgada = 0;
+    lateinit var baseDeDatos :BaseDeDatos
 
     fun MostrarResultado (view:View){
         var editText = ""
@@ -50,8 +56,28 @@ class MainActivity : AppCompatActivity() {
             var resultadoFinalView = valorElegido / valorBoton;
             val resultadoFinal = findViewById(R.id.resultadoFinal) as TextView ;
 
-            //manda a mostrar el resultado final
-            resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS"
+            baseDeDatos = BaseDeDatos(this)
+            var resRes = baseDeDatos.estaDisponible(pulgada)
+
+            if (resRes.size > 0){
+                Log.d("DB: " + pulgada.toString(), resRes[0].cantidad.toString())
+                if (resRes[0].cantidad < resultadoFinalView ){
+                    //manda a mostrar el resultado final
+                    resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS \n No hay suficientes tramos"
+                    Toast.makeText(applicationContext,"from DB: ",Toast.LENGTH_SHORT)
+                    return;
+                } else {
+                    resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS \n Hay suficientes tramos"
+                    Toast.makeText(applicationContext,"No hay suficientes tramos",Toast.LENGTH_SHORT)
+                    return
+                }
+            } else {
+                Log.d("DB: ", "No hay en base de datos")
+                resultadoFinal.text = "No hay de estos tramos \n en base de datos"
+                return
+            }
+
+            resultadoFinal.text = " EL RESULTADO ES ${resultadoFinalView} TRAMOS \n Hay sificientes tramos"
         }
 
 
@@ -59,30 +85,33 @@ class MainActivity : AppCompatActivity() {
     //modifican el valor de medida
     fun Boton1 (view:View){
         valor = 6
+        pulgada = 1
 
     }
     fun Boton2 (view:View){
 
          valor = 6;
-
+        pulgada = 2
 
     }
     fun Boton3 (view:View){
 
          valor = 8;
+        pulgada = 3
 
     }
     fun Boton4 (view:View){
 
          valor = 8;
+        pulgada = 4
 
     }
     fun Boton5 (view:View){
-
+        pulgada = 6
          valor = 10;
     }
     fun Boton6 (view:View){
-
+        pulgada = 8
          valor = 12;
 
     }
