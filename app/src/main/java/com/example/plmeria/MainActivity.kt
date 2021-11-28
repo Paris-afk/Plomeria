@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.huawei.hms.ads.AdParam
+import com.huawei.hms.ads.BannerAdSize
+import com.huawei.hms.ads.banner.BannerView
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         //to change title of activity
         val actionBar = supportActionBar
         actionBar!!.title = "Plomería Jalapeño"
+
+        var bannerView: BannerView? = findViewById(R.id.hw_banner_view)
+
+        // Create an ad request to load an ad.
+        val adParam = AdParam.Builder().build()
+        bannerView!!.loadAd(adParam)
     }
 
 
@@ -115,4 +121,6 @@ class MainActivity : AppCompatActivity() {
          valor = 12;
 
     }
+
+
 }
