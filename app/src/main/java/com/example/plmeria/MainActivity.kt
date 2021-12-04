@@ -21,6 +21,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Almacen::class.java)
             startActivity(intent);
         }
+
+        var btn_new_activityMap = findViewById(R.id.goToMap) as Button
+        btn_new_activityMap.setOnClickListener {
+            val intent = Intent(this, ubicacionMapa::class.java)
+            startActivity(intent);
+        }
         //to change title of activity
         val actionBar = supportActionBar
         actionBar!!.title = "Plomería Jalapeño"
