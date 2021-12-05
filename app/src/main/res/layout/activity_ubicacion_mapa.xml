@@ -5,6 +5,6 @@
     class="com.huawei.hms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    map:cameraTargetLat="48.893478"
-    map:cameraTargetLng="2.334595"
-    map:cameraZoom="10" />
+    map:cameraTargetLat="17.882942"
+    map:cameraTargetLng="-92.924218"
+    map:cameraZoom="13" />
